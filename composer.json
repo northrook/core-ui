@@ -1,0 +1,30 @@
+{
+  "name": "northrook/core-ui",
+  "description": "Core framework UI components.",
+  "type": "symfony-bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Martin",
+      "email": "mn@northrook.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Core\\UI\\": "src/"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "php": ">=8.3",
+    "northrook/core-framework": "dev-main",
+    "symfony/form": "^7.1"
+  },
+  "require-dev": {
+    "northrook/dev-env": "dev-main"
+  },
+  "scripts": {
+    "phpstan": "vendor/bin/phpstan analyse"
+  }
+}
