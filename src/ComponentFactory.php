@@ -21,6 +21,13 @@ final class ComponentFactory
     private array $instantiated = [];
 
     /**
+     * Provide a [class-string, args[]] array.
+     *
+     * @var array<class-string, mixed>
+     */
+    private array $registered = [];
+
+    /**
      * @param class-string $class
      * @param mixed        ...$args
      *
@@ -63,5 +70,16 @@ final class ComponentFactory
     public function getInstantiatedComponents() : array
     {
         return $this->instantiated;
+    }
+
+    public function getRegisteredComponents() : array
+    {
+        return $this->registered ??= (
+            function() {
+                $components = \glob( __DIR__.'/Components/*.php' );
+                dump( $components );
+                return \array_flip( $components );
+            }
+        )();
     }
 }

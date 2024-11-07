@@ -12,6 +12,9 @@ final class Render
 {
     private array $content;
 
+    /**
+     * @param null|array<array-key, mixed>|string $content
+     */
     private function __construct( null|string|array $content )
     {
         // parse incoming $content - must result in an array of lines => nested element[lines]
@@ -27,7 +30,7 @@ final class Render
     {
         $content = new Render( $content );
 
-        return $content->parseContent();
+        return (array) $content->parseContent();
     }
 
     /**
@@ -42,7 +45,6 @@ final class Render
         $string = '';
 
         foreach ( $content as $item ) {
-
             $lastChar = \mb_substr( $string, -1 );
             $nextChar = \mb_substr( $item, 0, 1 );
 
@@ -54,12 +56,17 @@ final class Render
             else {
                 $string .= " {$item}";
             }
-
         }
 
         return $string;
     }
 
+    /**
+     * @param null|array<array-key, mixed> $array
+     * @param null|int|string              $key
+     *
+     * @return array<array-key, mixed>|string
+     */
     protected function parseContent( ?array $array = null, null|string|int $key = null ) : string|array
     {
         $array ??= $this->content;

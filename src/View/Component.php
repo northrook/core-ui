@@ -9,6 +9,7 @@ use function Support\classBasename;
 
 abstract class Component implements Stringable
 {
+
     /**
      * Called when the Component is stringified.
      *
