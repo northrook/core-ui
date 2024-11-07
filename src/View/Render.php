@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Framework\View;
+namespace Core\UI\View;
 
 // ? Idea: static class, handles Render::component( ..args ) calls outside of ComponentFactory
 

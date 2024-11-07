@@ -2,20 +2,28 @@
 
 namespace Core\UI;
 
-use Core\Framework\Settings;
 use Override;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
-final class CoreUiBundle extends AbstractBundle
+final class CoreUIBundle extends AbstractBundle
 {
-
     #[Override]
     public function getPath() : string
     {
         return \dirname( __DIR__ );
     }
+
+    public function getNamespace() : string
+    {
+        $namespace = parent::getNamespace();
+
+        dump($namespace);
+
+        return $namespace;
+    }
+
     /**
      * @param array<array-key, mixed> $config
      * @param ContainerConfigurator   $container
@@ -25,9 +33,9 @@ final class CoreUiBundle extends AbstractBundle
      */
     #[Override]
     public function loadExtension(
-            array                 $config,
-            ContainerConfigurator $container,
-            ContainerBuilder      $builder,
+        array                 $config,
+        ContainerConfigurator $container,
+        ContainerBuilder      $builder,
     ) : void {
         \array_map( [$container, 'import'], $this->config() );
     }

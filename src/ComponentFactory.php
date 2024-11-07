@@ -1,18 +1,16 @@
 <?php
 
-declare( strict_types = 1 );
+declare(strict_types=1);
 
 namespace Core\UI;
 
-use Core\Framework\DependencyInjection\AutowireServicesInterface;
-use Core\Framework\DependencyInjection\ServiceContainer;
+use Core\Framework\DependencyInjection\{AutowireServicesInterface, ServiceContainer};
 use Core\UI\Exception\ComponentNotFoundException;
 use Core\UI\View\Component;
 use function Support\classBasename;
 
 final class ComponentFactory
 {
-
     use ServiceContainer;
 
     /**
@@ -23,8 +21,8 @@ final class ComponentFactory
     private array $instantiated = [];
 
     /**
-     * @param class-string  $class
-     * @param mixed         ...$args
+     * @param class-string $class
+     * @param mixed        ...$args
      *
      * @return Component
      */
@@ -43,16 +41,16 @@ final class ComponentFactory
     }
 
     /**
-     * @param class-string  $component
-     * @param mixed         ...$args
+     * @param class-string $component
+     * @param mixed        ...$args
      *
      * @return Component
      */
     private function intantiate( string $component, mixed ...$args ) : Component
     {
         if ( \class_exists( $component ) && \is_subclass_of( $component, Component::class ) ) {
-            if ( !isset( $this->instantiated[ $component ] ) ) {
-                $this->instantiated[ $component ] = \strtolower( classBasename( $component ) );
+            if ( ! isset( $this->instantiated[$component] ) ) {
+                $this->instantiated[$component] = \strtolower( classBasename( $component ) );
             }
             return new $component( ...$args );
         }
