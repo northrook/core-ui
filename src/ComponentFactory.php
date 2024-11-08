@@ -7,6 +7,7 @@ namespace Core\UI;
 use Core\Framework\DependencyInjection\{AutowireServicesInterface, ServiceContainer};
 use Core\UI\Exception\ComponentNotFoundException;
 use Core\UI\View\Component;
+use Support\ClassInfo;
 use function Support\classBasename;
 
 final class ComponentFactory
@@ -26,6 +27,12 @@ final class ComponentFactory
      * @var array<class-string, mixed>
      */
     private array $registered = [];
+
+    public function __construct(
+        array $register = [],
+    ) {
+        $this->registerComponents( $register );
+    }
 
     /**
      * @param class-string $class
@@ -65,6 +72,20 @@ final class ComponentFactory
     }
 
     /**
+     * @param array<array-key, class-string|string> $components
+     *
+     * @return void
+     */
+    public function registerComponents( array $components ) : void
+    {
+        foreach ( $components as $candidate ) {
+            $component = new ClassInfo( $candidate );
+
+            $this->registered[$component->className] = $component->class;
+        }
+    }
+
+    /**
      * @return array<class-string, string>
      */
     public function getInstantiatedComponents() : array
@@ -72,14 +93,11 @@ final class ComponentFactory
         return $this->instantiated;
     }
 
+    /**
+     * @return array<string, class-string>
+     */
     public function getRegisteredComponents() : array
     {
-        return $this->registered ??= (
-            function() {
-                $components = \glob( __DIR__.'/Components/*.php' );
-                dump( $components );
-                return \array_flip( $components );
-            }
-        )();
+        return $this->registered;
     }
 }
