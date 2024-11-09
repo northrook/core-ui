@@ -24,15 +24,11 @@ final class ComponentFactory
     /**
      * Provide a [class-string, args[]] array.
      *
-     * @var array<class-string, mixed>
+     * @param array<class-string, ClassInfo> $components
      */
-    private array $registered = [];
-
     public function __construct(
-        array $register = [],
-    ) {
-        $this->registerComponents( $register );
-    }
+        private readonly array $components = [],
+    ) {}
 
     /**
      * @param class-string $class
@@ -72,20 +68,6 @@ final class ComponentFactory
     }
 
     /**
-     * @param array<array-key, class-string|string> $components
-     *
-     * @return void
-     */
-    public function registerComponents( array $components ) : void
-    {
-        foreach ( $components as $candidate ) {
-            $component = new ClassInfo( $candidate );
-
-            $this->registered[$component->className] = $component->class;
-        }
-    }
-
-    /**
      * @return array<class-string, string>
      */
     public function getInstantiatedComponents() : array
@@ -94,10 +76,10 @@ final class ComponentFactory
     }
 
     /**
-     * @return array<string, class-string>
+     * @return array<string, class-string|ClassInfo>
      */
     public function getRegisteredComponents() : array
     {
-        return $this->registered;
+        return $this->components;
     }
 }
